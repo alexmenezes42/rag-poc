@@ -70,7 +70,7 @@ Pergunta:
 Resposta:
 """
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
-    model = ChatOpenAI(model_name="gpt-4", temperature=0.3, openai_api_key=api_key)
+    model = ChatOpenAI(model_name="gpt-3.5", temperature=0.3, openai_api_key=api_key)
     chain = load_qa_chain(model, chain_type="stuff", prompt=prompt)
     return chain
 
