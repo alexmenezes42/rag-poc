@@ -92,6 +92,42 @@ def main():
     st.sidebar.subheader("Sobre a empresa (orientações)")
     company_info = st.sidebar.text_area(
         "Insira aqui as informações ou orientações sobre a empresa.",
+        """A Findor oferece uma plataforma inovadora que utiliza inteligência artificial para transformar as interações empresariais através de “personagens” virtuais capazes de realizar negócios por meio de conversas. Esses personagens são projetados para aprender sobre a empresa, realizar transações, qualificar e atender clientes de maneira rápida e eficiente, proporcionando uma experiência de alto nível para o usuário.
+
+### Funcionalidades da Findor
+
+1. **Personalização e Treinamento de Personagens**:
+   - Configure a personalidade, o tom de voz e as habilidades do personagem, ajustando como ele interage com os clientes.
+   - Defina o tempo de resposta e diretrizes específicas para que ele compreenda e represente os processos da empresa de forma precisa.
+
+2. **Gestão de Conversas**:
+   - Permite gerenciar e monitorar todas as interações em tempo real, possibilitando a interrupção das respostas automáticas caso necessário.
+   - Inclui filtros inteligentes e feedbacks que ajudam a aprimorar o aprendizado do personagem.
+
+3. **Automação de Campanhas e CRM**:
+   - Facilita o acompanhamento de conversas abandonadas e a atualização automática de leads no CRM da empresa.
+   - Integra planilhas, como Excel ou Google Sheets, para melhor organização de dados e gestão de campanhas.
+
+4. **Análise de Resultados**:
+   - Oferece métricas personalizadas e visuais organizáveis para que a empresa acompanhe o desempenho em tempo real.
+   - Assegura uma visão clara sobre os principais KPIs, permitindo análises aprofundadas de engajamento e conversão.
+
+5. **Integrações Completas**:
+   - A Findor se conecta a diversas plataformas, incluindo CRMs e ferramentas de comunicação, facilitando a integração dos personagens aos canais de comunicação preferidos.
+
+### Benefícios Operacionais e Redução de Custos
+Estudos de caso apresentados indicam que a Findor ajuda empresas a reduzir custos em mais de 60% e a aumentar a satisfação dos clientes. Exemplo de resultados:
+   - Para bancos digitais, a plataforma diminuiu o custo em pessoal e ferramentas, enquanto aumentou a taxa de aprovação e reduziu o tempo médio de resolução.
+   - No caso de instituições de ensino, elevou o NPS e reduziu a taxa de abandono, resultando em maior engajamento.
+   - Em empresas de assessoria de investimentos, a Findor foi capaz de reduzir o custo por reunião em até 70%, triplicando a conversão de leads.
+
+### Orientações para Utilização
+Para aproveitar ao máximo a Findor, a empresa deve:
+   - **Definir claramente o perfil e o tom de voz do personagem** para que ele esteja alinhado com a cultura e os valores da organização.
+   - **Monitorar e ajustar o aprendizado continuamente** para garantir que os personagens respondam adequadamente às necessidades dos clientes.
+   - **Integrar a Findor aos sistemas existentes**, como CRM e plataformas de comunicação, para centralizar dados e otimizar o processo de atendimento.
+
+Com a Findor, sua empresa estará equipada para atender às demandas da nova era digital, otimizando operações e ampliando a eficiência através de interações baseadas em inteligência artificial.""",
         height=130
     )
 
@@ -103,6 +139,12 @@ def main():
         type=['pdf'],
         key="pdf_uploader"
     )
+
+    if not pdf_docs:
+        default_pdf_path = 'findor.pdf'  # Substitua pelo caminho do seu arquivo PDF padrão
+        if os.path.exists(default_pdf_path):
+            with open(default_pdf_path, 'rb') as f:
+                pdf_docs = [f]
 
     # Seção de FAQ na barra lateral
     st.sidebar.subheader("Seção de FAQ")
@@ -117,8 +159,22 @@ def main():
     faq_pairs = []
     for i in range(int(num_faq)):
         st.sidebar.markdown(f"**FAQ {i+1}**")
-        question = st.sidebar.text_input(f"Pergunta {i+1}:", key=f"faq_question_{i+1}")
-        answer = st.sidebar.text_area(f"Resposta {i+1}:", key=f"faq_answer_{i+1}", height=100)
+        # Definimos valores padrão para as duas primeiras FAQs
+        if i == 0:
+            question_default = "Quais modelos vocês utilizam?"
+            answer_default = "Construímos um framework que se conecta aos principais provedores de IA Generativa (OpenAI, Gemini, Claude, Llama). Cada provedor é mais eficiente para determinados tipos de tarefas. Abstraímos essa complexidade para você, cuidando das atualizações constantes na IA, permitindo que você se concentre no seu negócio."
+        elif i == 1:
+            question_default = "Como funciona o processo de implantação? O processo de implantação é demorado? COnsigo integrar com o meu CRM?"
+            answer_default = "Realizamos uma reunião inicial para demonstrar a plataforma e entender suas necessidades. Durante essa reunião, a versão “Júnior” do seu personagem já estará pronta para testes. Em seguida, entramos em um ciclo de feedback e testes para evoluí-lo até que esteja pronto para interagir com seus clientes ou equipes internas. Todas as integrações com CRMs ou canais são de nossa responsabilidade."
+        else:
+            question_default = ""
+            answer_default = ""
+        question = st.sidebar.text_input(
+            f"Pergunta {i+1}:", value=question_default, key=f"faq_question_{i+1}"
+        )
+        answer = st.sidebar.text_area(
+            f"Resposta {i+1}:", value=answer_default, key=f"faq_answer_{i+1}", height=100
+        )
         if question and answer:
             faq_pairs.append({"question": question, "answer": answer})
 
