@@ -140,19 +140,13 @@ Com a Findor, sua empresa estará equipada para atender às demandas da nova era
         key="pdf_uploader"
     )
 
-    if not pdf_docs:
-        default_pdf_path = 'findor.pdf'  # Substitua pelo caminho do seu arquivo PDF padrão
-        if os.path.exists(default_pdf_path):
-            with open(default_pdf_path, 'rb') as f:
-                pdf_docs = [f]
-
     # Seção de FAQ na barra lateral
     st.sidebar.subheader("Seção de FAQ")
     num_faq = st.sidebar.number_input(
         "Informe a quantidade de itens",
         min_value=0,
         max_value=5,
-        value=0,
+        value=2,
         step=1,
         key="num_faq"
     )
