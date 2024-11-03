@@ -28,8 +28,7 @@ if 'messages' not in st.session_state:
 #     st.sidebar.warning("Por favor, insira sua chave API da OpenAI para continuar.")
 #     st.stop()
 
-api_key= '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'
-
+api_key = os.environ['API_KEY']
 # Função para extrair texto dos PDFs
 def get_pdf_text(pdf_docs):
     text = ""
